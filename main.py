@@ -1,7 +1,8 @@
-from flask import Flask, redirect, abort, send_file
+from flask import Flask, redirect, abort, send_file, request
 from io import BytesIO
 from bridge import *
 from image import *
+import time
 
 app = Flask(__name__)
 
@@ -19,15 +20,22 @@ def index():
 
 @app.route("/latest-post/<username>", methods=["GET"])
 def get_latest_post(username:str):
+    version = request.args.get("v", default=time.time(), type=int)
+
     user = ScrapbookUser.from_username(username)
     if type(user) == int:
         return abort(user)
 
-    if len(user.posts) == 0:
+    latest = None
+    for post in user.posts:
+        if post.timestamp <= version:
+            latest = post
+
+    if len(user.posts) == 0 or latest == None:
         img = get_empty()
     else:
         img = draw_card(
-            text=user.posts[0].text,
+            text=latest.text,
             author="@"+username
         )
     
