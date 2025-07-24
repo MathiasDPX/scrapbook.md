@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 
 def get_empty():
-    return Image.new("RGB", (0,0))
+    return Image.new("RGB", (1,1), color=(0,)*4)
 
 def draw_card(text:str, author:str):
     img = Image.open("base.png").convert("RGB")
