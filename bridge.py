@@ -53,7 +53,11 @@ class ScrapbookUser:
     @classmethod
     def from_username(cls, username):
         r = requests.get(f"{_ENDPOINT}/users/{username}")
+        if r.status_code != 200:
+            return r.status_code
+
         data = r.json()
+
         profile = data.get("profile", {})
         posts = data.get("posts", [])
 
