@@ -1,9 +1,15 @@
 from PIL import Image, ImageDraw, ImageFont
+import re
 
 def get_empty():
     return Image.new("RGB", (1,1), color=(0,)*4)
 
+def escape_text(text):
+    result = re.sub(r"<[^|>]+\|([^>]+)>", r"\1", text)
+    return result
+
 def draw_card(text:str, author:str):
+    text = escape_text(text)
     img = Image.open("base.png").convert("RGB")
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("font.ttf", 48)
@@ -53,6 +59,8 @@ def draw_card(text:str, author:str):
     return img
 
 if __name__ == "__main__":
+    print(escape_text("Hello <https://world.com|World>!"))
+
     img = draw_card(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sodales, lectus a gravida posuere, erat justo vestibulum nisl, non venenatis orci turpis ac nulla. Cras dictum et felis feugiat rutrum. Integer a odio tempus, luctus nisl ut, ultricies lacus. Nunc in nibh felis. Nulla mollis tincidunt mauris. Pellentesque pellentesque auctor laoreet. Maecenas finibus accumsan lobortis. Praesent vel ornare magna. In suscipit pharetra ipsum pellentesque sagittis.",
         "@author"
