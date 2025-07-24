@@ -30,6 +30,7 @@ def get_latest_post(username:str):
     for post in user.posts:
         if post.timestamp <= version:
             latest = post
+            break
 
     if len(user.posts) == 0 or latest == None:
         img = get_empty()
