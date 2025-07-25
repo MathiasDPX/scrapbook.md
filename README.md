@@ -4,11 +4,13 @@ GitHub README add-on to embed a [scrapbook](https://scrapbook.hackclub.com/) pos
 
 ## Example
 
+You can find an update script in `.github\workflows\update_scrapbook.yml`
+
 ### Latest post
-[![Scrapbook post](https://scrapbook.mathias.hackclub.app/latest-post/mathias)](https://scrapbook.hackclub.com/mathias)
+[![Scrapbook post](https://scrapbook.mathias.hackclub.app/latest-post/mathias?v=0&update=1)](https://scrapbook.hackclub.com/mathias)
 
 ```markdown
-[![Scrapbook post](https://scrapbook.mathias.hackclub.app/latest-post/mathias)](https://scrapbook.hackclub.com/mathias)
+[![Scrapbook post](https://scrapbook.mathias.hackclub.app/latest-post/mathias?v=0&update=1)](https://scrapbook.hackclub.com/mathias)
 ```
 
 ### Specific post

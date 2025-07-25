@@ -1,0 +1,32 @@
+name: Update Scrapbook Stats
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # runs daily at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run script
+        run: python -c 'import re,time;d=open("README.md","r",encoding="utf-8").read();open("README.md","w",encoding="utf-8").write(re.sub(r"\]\(https:\/\/scrapbook\.mathias\.hackclub\.app\/latest-post\/mathias\?v=(\d+)&update=1\)",lambda m:m.group(0).replace(m.group(1),str(int(time.time()))),d))'
+
+      - name: Commit and Push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add README.md
+          git commit -m "Update Scrapbook embed" || echo "No changes"
+          git push
